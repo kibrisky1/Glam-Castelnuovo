@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Glam Estetica - CastelNuovo Rangone</title>
+    <!-- Carica Tailwind CSS per uno styling rapido e responsivo -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Definizione di colori personalizzati per il tema rosa-antico caldo (mantenuti) */
+        :root {
+            --warm-pink-light: #FADCE0; /* Rosa molto chiaro e caldo */
+            --warm-pink-medium: #ECCDCE; /* Rosa medio leggermente smorzato e caldo */
+            --warm-pink-dark: #CC869C; /* Rosa scuro e ricco */
+            --warm-accent-gold: #FFDC99; /* Oro/Pesca più brillante e caldo per accenti */
+            --warm-text-dark: #6B3B4B; /* Borgogna/Marrone scuro e caldo per il testo */
+        }
+
+        /* Configurazione di Tailwind per i colori personalizzati */
+        /* Questo blocco è necessario per usare le variabili CSS con Tailwind */
+        @tailwind base;
+        @tailwind components;
+        @tailwind utilities;
+
+        /* Aggiungo font Inter come richiesto, e fallback generici */
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden; /* Evita scroll orizzontale */
+            background-color: var(--warm-pink-light); /* Colore di sfondo base */
+            color: var(--warm-text-dark); /* Colore del testo predefinito */
+        }
+
+        /* Animazione per lo sfondo in movimento (mantenuta) */
+        @keyframes backgroundPan {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        .animated-background {
+            /* Sfondo a gradiente per l'effetto di movimento, con colori caldi */
+            background: linear-gradient(270deg, var(--warm-pink-light), var(--warm-pink-medium), var(--warm-pink-light));
+            background-size: 400% 400%; /* Rende il gradiente più grande del contenitore */
+            animation: backgroundPan 20s ease infinite; /* Animazione leggermente più lenta per un effetto più etereo */
+        }
+
+        /* Animazioni di ingresso per le sezioni (mantenute) */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeIn 1.2s ease-out forwards; /* Animazione più lenta */
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Ritardi per le animazioni (mantenuti) */
+        .delay-1 { animation-delay: 0.2s; }
+        .delay-2 { animation-delay: 0.4s; }
+        .delay-3 { animation-delay: 0.6s; }
+        .delay-4 { animation-delay: 0.8s; }
+        .delay-5 { animation-delay: 1.0s; }
+
+
+        /* Stile per i bottoni (aggiornato per un look più raffinato) */
+        .btn-primary {
+            @apply bg-warm-pink-dark text-white font-semibold py-3 px-8 rounded-full shadow-lg
+                   hover:bg-warm-pink-medium hover:scale-105 transition-all duration-300 ease-in-out
+                   border-2 border-transparent hover:border-white; /* Aggiunto bordo all'hover */
+            background-color: var(--warm-pink-dark);
+            letter-spacing: 0.05em; /* Spaziatura maggiore per il testo del bottone */
+        }
+
+        /* Stile specifico per il titolo principale */
+        .hero-title {
+            font-size: 4rem; /* Dimensione del titolo più grande per desktop */
+            line-height: 1;
+            font-weight: bold;
+            color: var(--warm-text-dark);
+            text-shadow: 2px 2px 6px rgba(0,0,0,0.15); /* Ombra più pronunciata */
+        }
+
+        .hero-subtitle {
+            font-size: 1.5rem; /* Dimensione del sottotitolo */
+            color: var(--warm-text-dark);
+            opacity: 0.85; /* Leggermente meno trasparente */
+            letter-spacing: 0.02em; /* Leggera spaziatura per il sottotitolo */
+        }
+
+        /* Media queries per la responsività dei testi */
+        @media (min-width: 768px) {
+            .hero-title {
+                font-size: 6rem; /* Ancora più grande su schermi medi */
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .hero-title {
+                font-size: 8rem; /* Dimensione massima per desktop */
+            }
+        }
+
+        /* Hover effect per le card (aggiornato) */
+        .card-hover:hover {
+            transform: translateY(-8px) scale(1.02); /* Spostamento e leggero ingrandimento */
+            box-shadow: 0 15px 25px rgba(0,0,0,0.15); /* Ombra più grande e morbida */
+        }
+
+        /* Stile per le tabelle dei prezzi (aggiornato con bordi più soft) */
+        .price-table th, .price-table td {
+            padding: 1.2rem 1.5rem; /* Padding aumentato */
+            text-align: left;
+            border-bottom: 1px solid rgba(var(--warm-pink-medium), 0.5); /* Bordo più leggero e trasparente */
+        }
+
+        .price-table th {
+            background-color: var(--warm-pink-medium);
+            color: var(--warm-text-dark);
+            font-weight: 600; /* Font più spesso per le intestazioni */
+        }
+
+        .price-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* Nuovi stili per le sezioni */
+        .section-container {
+            background-color: rgba(255, 255, 255, 0.7); /* Sfondo più trasparente */
+            border-radius: 2.5rem; /* Bordi più arrotondati */
+            padding: 2.5rem; /* Padding aumentato */
+            box-shadow: 0 10px 20px rgba(0,0,0,0.08); /* Ombra più morbida */
+            border: 1px solid rgba(255, 255, 255, 0.9); /* Bordo sottile chiaro */
+            backdrop-filter: blur(8px); /* Effetto vetro smerigliato */
+            -webkit-backdrop-filter: blur(8px); /* Per compatibilità Safari */
+        }
+
+        /* Stile per i titoli delle sezioni */
+        .section-title {
+            font-size: 3.5rem; /* Titolo leggermente più grande */
+            font-weight: 700;
+            margin-bottom: 2.5rem;
+            color: var(--warm-pink-dark);
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.05);
+        }
+
+        /* Layout più fluido per i trattamenti */
+        .grid-treatments {
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Colonne adattive */
+        }
+
+        /* Stile per il footer */
+        footer {
+            background-color: var(--warm-pink-dark);
+            color: var(--warm-pink-light);
+            padding: 3rem 1rem;
+            margin-top: 5rem;
+            border-top-left-radius: 3rem; /* Angolo arrotondato in alto a sinistra */
+            border-top-right-radius: 3rem; /* Angolo arrotondato in alto a destra */
+            box-shadow: 0 -5px 15px rgba(0,0,0,0.1);
+        }
+
+        /* Stile specifico per le liste di trattamenti */
+        .treatment-list-item {
+            position: relative;
+            padding-left: 1.5em; /* Spazio per il pallino personalizzato */
+        }
+
+        .treatment-list-item::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0.6em; /* Allinea il pallino al centro del testo */
+            width: 0.6em;
+            height: 0.6em;
+            background-color: var(--warm-pink-dark); /* Colore del pallino */
+            border-radius: 50%;
+        }
+
+    </style>
+</head>
+<body class="animated-background min-h-screen flex flex-col items-center justify-start text-center">
+
+    <!-- Sezione Hero / Intestazione -->
+    <header class="w-full py-24 md:py-40 flex flex-col justify-center items-center px-4">
+        <h1 class="hero-title fade-in">Glam Estetica</h1>
+        <p class="hero-subtitle fade-in delay-1">Castelnuovo Rangone</p>
+    </header>
+
+    <main class="w-full max-w-7xl mx-auto p-4 space-y-24">
+
+        <!-- Sezione Chi Siamo/Introduzione -->
+        <section id="about" class="section-container fade-in delay-2 text-left">
+            <h2 class="section-title text-center">Benvenuti in Glam Estetica</h2>
+            <p class="text-lg leading-relaxed mb-4">
+                Presso Glam Estetica, ci dedichiamo a esaltare la tua bellezza naturale e a offrirti momenti di puro relax.
+                Situati nel cuore di Castelnuovo Rangone, il nostro centro è un'oasi di tranquillità dove potrai rigenerarti e prenderti cura di te con trattamenti all'avanguardia e prodotti di alta qualità.
+            </p>
+            <p class="text-lg leading-relaxed">
+                Il nostro team di professionisti altamente qualificati è pronto ad accoglierti con passione e competenza, garantendoti un'esperienza personalizzata e indimenticabile.
+            </p>
+        </section>
+
+        <!-- Sezione Trattamenti -->
+        <section id="trattamenti" class="section-container fade-in delay-3">
+            <h2 class="section-title">I Nostri Trattamenti</h2>
+            <div class="grid grid-treatments gap-8">
+                <!-- Card Trattamenti Viso -->
+                <div class="bg-warm-pink-light rounded-2xl p-6 shadow-md card-hover transition-transform duration-200 ease-in-out">
+                    <h3 class="text-2xl font-semibold mb-4 text-warm-pink-dark">Trattamenti Viso</h3>
+                    <ul class="list-none text-left space-y-2 text-base md:text-lg">
+                        <li class="treatment-list-item">Pulizia Viso</li>
+                        <li class="treatment-list-item">Trattamento Idratante</li>
+                        <li class="treatment-list-item">Massaggio Lifting</li>
+                        <li class="treatment-list-item">Trattamento Anti-Età</li>
+                    </ul>
+                </div>
+                <!-- Card Trattamenti Ciglia e Sopracciglia -->
+                <div class="bg-warm-pink-light rounded-2xl p-6 shadow-md card-hover transition-transform duration-200 ease-in-out">
+                    <h3 class="text-2xl font-semibold mb-4 text-warm-pink-dark">Ciglia e Sopracciglia</h3>
+                    <ul class="list-none text-left space-y-2 text-base md:text-lg">
+                        <li class="treatment-list-item">Laminazione Ciglia</li>
+                        <li class="treatment-list-item">Tintura Ciglia e Sopracciglia</li>
+                        <li class="treatment-list-item">Allungamento Ciglia</li>
+                        <li class="treatment-list-item">Definizione Sopracciglia</li>
+                    </ul>
+                </div>
+                <!-- Card Trattamenti Corpo e Massaggi -->
+                <div class="bg-warm-pink-light rounded-2xl p-6 shadow-md card-hover transition-transform duration-200 ease-in-out">
+                    <h3 class="text-2xl font-semibold mb-4 text-warm-pink-dark">Trattamenti Corpo & Massaggi</h3>
+                    <ul class="list-none text-left space-y-2 text-base md:text-lg">
+                        <li class="treatment-list-item">Massaggio Rilassante Personalizzato</li>
+                        <li class="treatment-list-item">Trattamento Snellente e Drenante</li>
+                        <li class="treatment-list-item">Pressoterapia</li>
+                        <li class="treatment-list-item">Bendaggi Specifici</li>
+                    </ul>
+                </div>
+                <!-- Card Epilazione -->
+                <div class="bg-warm-pink-light rounded-2xl p-6 shadow-md card-hover transition-transform duration-200 ease-in-out">
+                    <h3 class="text-2xl font-semibold mb-4 text-warm-pink-dark">Epilazione</h3>
+                    <ul class="list-none text-left space-y-2 text-base md:text-lg">
+                        <li class="treatment-list-item">Epilazione Laser Diodo</li>
+                        <li class="treatment-list-item">Ceretta Tradizionale (Varie Zone)</li>
+                        <li class="treatment-list-item">Ceretta Brasiliana</li>
+                        <li class="treatment-list-item">Epilazione con Filo Orientale</li>
+                    </ul>
+                </div>
+                <!-- Card Manicure & Pedicure -->
+                <div class="bg-warm-pink-light rounded-2xl p-6 shadow-md card-hover transition-transform duration-200 ease-in-out">
+                    <h3 class="text-2xl font-semibold mb-4 text-warm-pink-dark">Manicure & Pedicure</h3>
+                    <ul class="list-none text-left space-y-2 text-base md:text-lg">
+                        <li class="treatment-list-item">Manicure Classica</li>
+                        <li class="treatment-list-item">Pedicure Estetico</li>
+                        <li class="treatment-list-item">Smalto Semipermanente</li>
+                        <li class="treatment-list-item">Ricostruzione Unghie Gel</li>
+                    </ul>
+                </div>
+                <!-- Card Dermopigmentazione -->
+                <div class="bg-warm-pink-light rounded-2xl p-6 shadow-md card-hover transition-transform duration-200 ease-in-out">
+                    <h3 class="text-2xl font-semibold mb-4 text-warm-pink-dark">Dermopigmentazione</h3>
+                    <ul class="list-none text-left space-y-2 text-base md:text-lg">
+                        <li class="treatment-list-item">Sopracciglia (Microblading/Powder Brows)</li>
+                        <li class="treatment-list-item">Eyeliner</li>
+                        <li class="treatment-list-item">Labbra</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sezione Prezzi -->
+        <section id="prezzi" class="section-container fade-in delay-4">
+            <h2 class="section-title">I Nostri Prezzi</h2>
+            <div class="overflow-x-auto rounded-xl shadow-md"> <!-- Bordi più arrotondati per la tabella -->
+                <table class="w-full bg-white rounded-xl price-table text-sm sm:text-base">
+                    <thead>
+                        <tr>
+                            <th class="rounded-tl-xl">Trattamento</th>
+                            <th class="rounded-tr-xl">Prezzo (a partire da)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- INIZIO SEZIONE PREZZI MODIFICABILI (Aggiornati da Treatwell) -->
+                        <tr>
+                            <td>Trattamenti Viso</td>
+                            <td>€ 45</td>
+                        </tr>
+                        <tr>
+                            <td>Trattamenti Ciglia e Sopracciglia</td>
+                            <td>€ 20</td>
+                        </tr>
+                        <tr>
+                            <td>Ceretta</td>
+                            <td>€ 5</td>
+                        </tr>
+                        <tr>
+                            <td>Massaggi</td>
+                            <td>€ 35</td>
+                        </tr>
+                        <tr>
+                            <td>Manicure</td>
+                            <td>€ 15</td>
+                        </tr>
+                        <tr>
+                            <td>Pedicure</td>
+                            <td>€ 30</td>
+                        </tr>
+                        <tr>
+                            <td>Dermopigmentazione</td>
+                            <td>€ 150</td>
+                        </tr>
+                        <tr>
+                            <td>Ceretta Brasiliana</td>
+                            <td>€ 25</td>
+                        </tr>
+                        <!-- FINE SEZIONE PREZZI MODIFICABILI -->
+                        <!-- Aggiungi o modifica altre righe qui -->
+                    </tbody>
+                </table>
+            </div>
+            <p class="mt-8 text-lg text-left">
+                <strong class="text-warm-pink-dark">Nota:</strong> I prezzi indicati sono "a partire da". Per un preventivo personalizzato o per pacchetti specifici, ti invitiamo a contattarci o a consultare la nostra pagina Treatwell.
+            </p>
+        </section>
+
+        <!-- Sezione Contatti -->
+        <section id="contatti" class="section-container fade-in delay-5 text-left">
+            <h2 class="section-title text-center">Contattaci</h2>
+            <p class="text-lg leading-relaxed mb-8">
+                Siamo qui per rispondere a tutte le tue domande e per aiutarti a prenotare il tuo momento di benessere.
+            </p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+                <div>
+                    <h3 class="text-2xl font-semibold mb-4 text-warm-pink-dark">Glam Estetica</h3>
+                    <p class="mb-3"><span class="font-bold">Indirizzo:</span> Via A.Manzoni, 5A, 41051 Castelnuovo Rangone MO, Italia</p>
+                    <p class="mb-3"><span class="font-bold">Telefono:</span> <a href="tel:+393289343864" class="text-warm-pink-dark hover:underline">+39 328 934 3864</a></p>
+                    <p class="mb-3"><span class="font-bold">Orari:</span> da martedì a sabato 9:00 am - 18:00</p>
+                </div>
+                <div>
+                    <h3 class="text-2xl font-semibold mb-4 text-warm-pink-dark">Seguici sui Social!</h3>
+                    <div class="flex space-x-6 items-center">
+                        <!-- Icona Instagram -->
+                        <a href="https://www.instagram.com/glam_estetica_castelnuovo/" target="_blank" class="text-warm-pink-dark hover:text-warm-pink-medium transition-colors duration-200 text-4xl">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-instagram" viewBox="0 0 16 16">
+                                <path d="M8 0C5.829 0 5.556.01 4.703.048 3.85.088 3.269.222 2.76.429c-.52.22-.953.472-1.46.924-.482.436-.842.92-1.114 1.488-.26.556-.412 1.1-.482 1.954-.038.853-.068 1.127-.068 3.315s.03 2.462.068 3.315c.07.854.222 1.4.482 1.954.272.568.632 1.052 1.114 1.488.507.452.94.704 1.46.924.5.207 1.081.341 1.934.38.853.038 1.127.068 3.315.068s2.462-.03 3.315-.068c.854-.038 1.4-.222 1.954-.482.568-.272 1.052-.632 1.488-1.114.452-.507.704-.94.924-1.46.207-.5.341-1.081.38-1.934.038-.853.068-1.127.068-3.315s-.03-2.462-.068-3.315c-.038-.853-.222-1.4-.482-1.954-.272-.568-.632-1.052-1.114-1.488-.452-.507-.94-.704-1.46-.924-.5-.207-1.081-.341-1.934-.38C10.556.01 10.282 0 8 0zm0 1.62c2.086 0 2.33.007 3.102.042.74.033 1.144.175 1.47.308.314.125.57.288.75.488.196.205.353.44.49.7.136.26.236.56.29.932.054.373.082.757.082 2.213s-.028 1.84-.082 2.213c-.054.372-.154.672-.29.932-.137.26-.294.495-.49.7-.18.2-.436.363-.75.488-.327.133-.73.275-1.47.308-.772.035-1.016.042-3.102.042s-2.33-.007-3.102-.042c-.74-.033-1.144-.175-1.47-.308-.314-.125-.57-.288-.75-.488-.196-.205-.353-.44-.49-.7-.136-.26-.236-.56-.29-.932-.054-.373-.082-.757-.082-2.213s.028-1.84.082-2.213c.054-.372.154-.672.29-.932.137-.26.294-.495.49-.7.18-.2.436-.363.75-.488.327-.133.73-.275 1.47-.308.772-.035 1.016-.042 3.102-.042zm0 8.644a3.179 3.179 0 1 0 0-6.358 3.179 3.179 0 0 0 0 6.358zm0-5.358a2.179 2.179 0 1 1 0 4.358 2.179 2.179 0 0 1 0-4.358z"/>
+                                <path d="M12.986 1.346a1 1 0 1 0-2 0 1 1 0 0 0 2 0z"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <!-- Pulsante Prenota Ora! aggiornato con il link Treatwell -->
+            <a href="https://www.treatwell.it/salone/glam-estetica-castelnuovo-rangone/?utm_source=google&utm_medium=rwg&hl=it-IT&gei=WVFVaNj4IeiF9u8PveXDsQI" target="_blank" class="btn-primary mt-12 inline-block">Prenota Ora!</a>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="w-full text-warm-pink-light">
+        <div class="max-w-7xl mx-auto text-center px-4">
+            <p>&copy; 2025 Glam Estetica. Tutti i diritti riservati.</p>
+            <p class="text-sm mt-2">Realizzato con passione a Castelnuovo Rangone</p>
+        </div>
+    </footer>
+
+</body>
+</html>
